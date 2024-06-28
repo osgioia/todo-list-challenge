@@ -1,0 +1,84 @@
+service: todo-list-challenge
+
+frameworkVersion: "3"
+custom:
+  serverless-offline:
+    httpPort: 4000
+  tableName: users-table-${opt:stage, 'default'}
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [UsersTable, Arn]
+  environment:
+    USERS_TABLE: ${self:custom.tableName}
+
+functions:
+  GetTodoList:
+    handler: handlers/read-todolist/index.handler
+    description: "Get Todo List Table."
+    iamRoleStatementsInherit: true
+    memorySize: 256
+    events:
+      - http:
+          method: GET
+          path: /todo-list
+  
+  CreateTodoList:
+    handler: handlers/create-todolist/index.handler
+    description: "Create a new element in Todo List Table."
+    iamRoleStatementsInherit: true
+    memorySize: 256
+    events:
+      - http:
+          method: POST
+          path: /todo-list
+
+  UpdateTodoList:
+    handler: handlers/update-todolist/index.handler
+    description: "Update a element in Todo List Table."
+    iamRoleStatementsInherit: true
+    memorySize: 256
+    events:
+      - http:
+          method: PUT
+          path: /todo-list
+
+  DeleteTodoList:
+    handler: handlers/delete-todolist/index.handler
+    description: "Delete a element in Todo List Table."
+    iamRoleStatementsInherit: true
+    memorySize: 256
+    events:
+      - http:
+          method: DELETE
+          path: /todo-list
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}

@@ -1,0 +1,19 @@
+{
+  "name": "todo-list-challenge",
+  "version": "1.0.0",
+  "description": "Serverless Home Challenge",
+  "main": "index.js",
+  "scripts": {
+    "offline:local": "sls offline --stage local --param=\"pwd=$(pwd)\" --verbose"
+  },
+  "author": "osgioia",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.602.0",
+    "serverless": "3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "serverless-offline": "^13.6.0"
+  }
+}
