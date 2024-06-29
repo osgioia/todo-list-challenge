@@ -49,9 +49,19 @@ describe('handler', () => {
     const errorMessage = 'Validation error: "id" is required';
     const mockValidationError = new Error(errorMessage);
     mockValidationError.name = 'ValidationError';
+
     const expectedErrorResponse = {
-      statusCode: 400,
-      body: JSON.stringify({ message: errorMessage })
+      "message": JSON.stringify([
+       {
+         "code": "invalid_type",
+         "expected": "string",
+         "received": "undefined",
+         "path": [
+           "id"
+         ],
+         "message": "Required"
+       }
+     ], null, 2)
     };
 
     PutCommand.mockImplementation(() => {
@@ -64,5 +74,4 @@ describe('handler', () => {
     expect(JSON.parse(result.body)).toEqual(expectedErrorResponse);
   });
 
-  // Add more test cases as needed
 });

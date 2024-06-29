@@ -37,8 +37,7 @@ describe('handler', () => {
 
     const errorMessage = 'Either ID or Title must be provided.';
     const expectedErrorResponse = {
-      statusCode: 400,
-      body: JSON.stringify({ message: errorMessage })
+      message: errorMessage
     };
 
     const result = await handler(mockEvent);
@@ -48,5 +47,4 @@ describe('handler', () => {
     expect(DeleteCommand).not.toHaveBeenCalled();
   });
 
-  // Add more test cases as needed
 });
