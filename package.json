@@ -4,7 +4,8 @@
   "description": "Serverless Home Challenge",
   "main": "index.js",
   "scripts": {
-    "offline:local": "sls offline start --stage local --param=\"pwd=$(pwd)\" --verbose"
+    "offline:local": "sls offline start --stage local --param=\"pwd=$(pwd)\" --verbose",
+    "test": "jest"
   },
   "author": "osgioia",
   "license": "ISC",
