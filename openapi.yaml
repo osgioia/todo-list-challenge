@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: Todo List API
+  description: API for managing a todo list.
+  version: 1.0.0
+servers:
+  - url: https://{stage}.execute-api.us-east-1.amazonaws.com
+    variables:
+      stage:
+        default: dev
+paths:
+  /todo-list:
+    get:
+      summary: Get Todo List
+      operationId: getTodoList
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoItem'
+    post:
+      summary: Create Todo Item
+      operationId: createTodoItem
+      requestBody:
+        description: Todo item to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+      responses:
+        '200':
+          description: Item created
+    put:
+      summary: Update Todo Item
+      operationId: updateTodoItem
+      requestBody:
+        description: Todo item to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodoItem'
+      responses:
+        '200':
+          description: Item updated
+    delete:
+      summary: Delete Todo Item
+      operationId: deleteTodoItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Item deleted
+components:
+  schemas:
+    TodoItem:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        completed:
+          type: boolean
+        metadata:
+          type: string
+    UpdateTodoItem:
+      type: object
+      properties:
+        id:
+          type: string
+        paramsName:
+          type: string
+        paramsValue:
+          type: string
