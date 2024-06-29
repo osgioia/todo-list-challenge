@@ -4,13 +4,16 @@
   "description": "Serverless Home Challenge",
   "main": "index.js",
   "scripts": {
-    "offline:local": "sls offline --stage local --param=\"pwd=$(pwd)\" --verbose"
+    "offline:local": "sls offline start --stage local --param=\"pwd=$(pwd)\" --verbose"
   },
   "author": "osgioia",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.602.0",
-    "serverless": "3"
+    "@aws-sdk/lib-dynamodb": "^3.606.0",
+    "serverless": "3",
+    "serverless-dynamodb": "^0.2.53",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "jest": "^29.7.0",

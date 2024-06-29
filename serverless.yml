@@ -4,9 +4,15 @@ frameworkVersion: "3"
 custom:
   serverless-offline:
     httpPort: 4000
-  tableName: users-table-${opt:stage, 'default'}
+  serverless-dynamodb:
+    start:
+      port: 8081
+      docker: false
+      migrate: true
+  tableName: todos-table
 
 plugins:
+  - serverless-dynamodb
   - serverless-offline
 
 provider:
@@ -24,25 +30,24 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - Fn::GetAtt: [UsersTable, Arn]
+            - Fn::GetAtt: [TodosTable, Arn]
   environment:
-    USERS_TABLE: ${self:custom.tableName}
+    TODOS_TABLE: ${self:custom.tableName}
+    STAGE: ${opt:stage}
 
 functions:
   GetTodoList:
     handler: handlers/read-todolist/index.handler
     description: "Get Todo List Table."
-    iamRoleStatementsInherit: true
     memorySize: 256
     events:
       - http:
           method: GET
           path: /todo-list
-  
+
   CreateTodoList:
     handler: handlers/create-todolist/index.handler
     description: "Create a new element in Todo List Table."
-    iamRoleStatementsInherit: true
     memorySize: 256
     events:
       - http:
@@ -51,8 +56,7 @@ functions:
 
   UpdateTodoList:
     handler: handlers/update-todolist/index.handler
-    description: "Update a element in Todo List Table."
-    iamRoleStatementsInherit: true
+    description: "Update an element in Todo List Table."
     memorySize: 256
     events:
       - http:
@@ -61,8 +65,7 @@ functions:
 
   DeleteTodoList:
     handler: handlers/delete-todolist/index.handler
-    description: "Delete a element in Todo List Table."
-    iamRoleStatementsInherit: true
+    description: "Delete an element in Todo List Table."
     memorySize: 256
     events:
       - http:
@@ -71,14 +74,15 @@ functions:
 
 resources:
   Resources:
-    UsersTable:
+    TodosTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        AttributeDefinitions:
-          - AttributeName: userId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: userId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: "id"
+            AttributeType: "S"
+        KeySchema:
+          - AttributeName: "id"
+            KeyType: "HASH"
+        BillingMode: PAY_PER_REQUEST
+        
