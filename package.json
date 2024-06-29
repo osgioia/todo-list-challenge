@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "offline:local": "sls offline start --stage local --param=\"pwd=$(pwd)\" --verbose",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "sls deploy"
   },
   "author": "osgioia",
   "license": "ISC",
