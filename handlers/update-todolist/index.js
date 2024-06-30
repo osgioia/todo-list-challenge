@@ -22,7 +22,6 @@ exports.handler = async (event) => {
       attributeValue = `${paramsValue}`;
     }
 
-
     const params = {
       TableName: TODOS_TABLE,
       Key: {

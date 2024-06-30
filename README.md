@@ -48,9 +48,9 @@ The API allows CRUD (Create, Read, Update, Delete) operations on a DynamoDB tabl
 
 To deploy the API on AWS, run the following command:
 
-    ```bash
-    npm run deploy
-    ```
+```bash
+npm run deploy
+```
 
 This command will deploy the resources on AWS and provide you with the API endpoints.
 
@@ -58,104 +58,106 @@ This command will deploy the resources on AWS and provide you with the API endpo
 
 You can run the API locally using serverless-offline:
 
-    ```bash
-    npm run offline:local
-    ``` 
+```bash
+npm run offline:local
+``` 
 
 The API will be available at http://localhost:4000.
 
 ## Using the API
 ### Get Todo List
 
-    Endpoint: GET /todo-list
+Endpoint: GET /todo-list
 
-    Description: Get an task in the todo list.
+Description: Get an task in the todo list.
 
-    Example:
+Example:
 
-    ```bash
+```bash
     curl http://localhost:4000/todo-list?id=1aaa
-    ```
+```
 
 ### Create a New Task
 
-    Endpoint: POST /todo-list
+Endpoint: POST /todo-list
 
-    Description: Creates a new task in the todo list.
+Description: Creates a new task in the todo list.
 
-    Request Body:
+Request Body:
 
-    ```json
+```json
     {
     "id": "1",
     "title": "New task",
     "completed": false,
     "metadata": "data"
     }
-    ```
+```
+
 Example:
 
-    ```bash
+```bash
     curl -X POST http://localhost:4000/todo-list -d '{"id": "1aaa", "title": "New task", "completed": false, "metadata":"data"}' -H 'Content-Type: application/json'
-    ```
+```
 
 ### Update a Task
 
-    Endpoint: PUT /todo-list/
+Endpoint: PUT /todo-list/
 
-    Description: Updates an existing task in the todo list.
+Description: Updates an existing task in the todo list.
 
-    Request Body:
+Request Body:
 
-    ```json
+```json
     {
     "id": "1aaa",
     "paramsName": "completed",
     "paramsValue": true
     }
-    ```
+```
+
 Example:
 
-    ```bash
+```bash
     curl -X PUT http://localhost:4000/todo-list/ -d '{"id": "1aaa","paramsName": "completed","paramsValue": true}' -H 'Content-Type: application/json'
-    ```
+```
 
 ### Delete a Task
 
-    Endpoint: DELETE /todo-list/{id}
+Endpoint: DELETE /todo-list/{id}
 
-    Description: Deletes a task from the todo list. It can only be deleted if the task is completed.
+Description: Deletes a task from the todo list. It can only be deleted if the task is completed.
 
-    Example:
+Example:
 
-    ```bash
+```bash
     curl -X DELETE http://localhost:4000/todo-list/?id=1aaa
-    ```
+```
 
 ## Testing
 
 To run the unit tests, use the following command:
 
-    ```bash
+```bash
     npm run test
-    ```
+```
 
 ## API Documentation
 
 The OpenAPI specification for this API is available in the openapi.yaml file. You can view and test the API using Swagger UI.
 Accessing Swagger UI
 
-    Clone this repository.
-    Open the openapi.yaml file with Swagger UI.
+- Clone this repository.
+- Open the openapi.yaml file with Swagger UI.
 
 You can also use tools like Redoc to generate static documentation from the OpenAPI specification.
 Example
 
-    ```bash
+```bash
     npm install -g redoc-cli
     redoc-cli bundle openapi.yaml
     open redoc-static.html
-    ```
+```
 
 ## License
 
